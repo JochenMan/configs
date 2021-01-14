@@ -83,27 +83,3 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 " open results of last global command in a split window
 let @g = ':redir @a:g//:redir END:vnew:put! a'
 
-" macros and remappings for todos
-let @u = ':g/- \[ \]/'
-let @f = ':g/- \[x\]/'
-let @d = ':%s/^\(.\{-}-\{1}\)/-\2'
-nnoremap <silent> <F5> :s/^- \[ \]/- \[x\]/
-nnoremap <silent> <F7> :g/- \[ \]/<CR>@g:%s/^\(.\{-}-\{1}\)/-\2
-nnoremap <silent> <F8> :g/- \[x\]/<CR>@g:%s/^\(.\{-}-\{1}\)/-\2
-
-function Meow()
-  let checked='- [x]'
-  let unchecked='- [ ]'
-  let l=getline('.')
-  let is_checked = stridx(l, checked)
-  let is_unchecked = stridx(l, unchecked)
-  if is_checked == 0
-   let l=substitute(l, '- \[x\]', '- \[ \]', "1")
-  endif
-  if is_unchecked == 0
-   let l=substitute(l, '- \[ \]', '- \[x\]', "1")
-  endif
-  call setline('.', l)
-endfunction
-
-nnoremap <silent> <F6> :call Meow()<CR>
